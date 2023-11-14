@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load humanize%}
+
+{% block title%} Employee details{%  endblock title %}
+
+
+{% block content%}
+
+{% include 'alerts.html'%}
+ <style>
+        .container{
+            height: 40%;
+            width:30%;
+            margin-top: 5px;
+        }
+    </style>
+    <a href={% url 'all'%} class="btn btn-dark rounded-0 m-3">Back To Employees</a>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-5"></div>
+            <div class="card">
+                {% if employee.profile %}
+                <img src="{{ employee.profile.url}}" alt="" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ employee.name}}</h2>
+                    <p class="card-text">Address: {{employee.email}}</p>
+                    <p class="card-text">Ksh {{employee.salary | intcomma}}</p>
+                    <p class="card-text">Born on {{employee.dob}}</p>
+                    <p class="card-text">Added: {{employee.created_at | naturaltime}}</p>
+                    {% if perms.mainapp.delete_employee %}
+                    <a href="{% url 'delete' employee.id %}" class="btn btn-danger w-100">Delete</a>
+                    {% endif %}
+                    <br>
+                    {% if perms.mainapp.change_employee %}
+                    <a href="{% url 'update' employee.id %}" class="btn btn-info w-100 mt-2">Update</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+ {%  endblock content %}
